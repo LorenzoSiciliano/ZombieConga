@@ -11,7 +11,7 @@
 		3500BC561D8C68BC00E79B3A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3500BC551D8C68BC00E79B3A /* GameScene.swift */; };
 		3500BC581D8C68BC00E79B3A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3500BC571D8C68BC00E79B3A /* GameViewController.swift */; };
 		3500BC5B1D8C68BC00E79B3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC591D8C68BC00E79B3A /* Main.storyboard */; };
-		3500BC5D1D8C68BC00E79B3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC5C1D8C68BC00E79B3A /* Assets.xcassets */; };
+		3500BC5D1D8C68BC00E79B3A /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC5C1D8C68BC00E79B3A /* assets.xcassets */; };
 		3500BC601D8C68BC00E79B3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC5E1D8C68BC00E79B3A /* LaunchScreen.storyboard */; };
 		353F9DB21D8C776900326400 /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353F9DB11D8C776900326400 /* MyUtils.swift */; };
 		353F9DB91D8C7D6100326400 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 353F9DB41D8C7D6100326400 /* backgroundMusic.mp3 */; };
@@ -28,6 +28,8 @@
 		60067F2020013E1C009BEE5E /* TargetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60067F1F20013E1C009BEE5E /* TargetComponent.swift */; };
 		60067F2220013E33009BEE5E /* ZombieEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60067F2120013E33009BEE5E /* ZombieEntity.swift */; };
 		60067F2420014556009BEE5E /* SeekBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60067F2320014556009BEE5E /* SeekBehavior.swift */; };
+		C7875BA420175291003CC5AA /* HeartDropEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7875BA320175291003CC5AA /* HeartDropEntity.swift */; };
+		C7875BA6201753A8003CC5AA /* DogEnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7875BA5201753A8003CC5AA /* DogEnemyEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,7 +38,7 @@
 		3500BC551D8C68BC00E79B3A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		3500BC571D8C68BC00E79B3A /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3500BC5A1D8C68BC00E79B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3500BC5C1D8C68BC00E79B3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3500BC5C1D8C68BC00E79B3A /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = assets.xcassets; sourceTree = "<group>"; };
 		3500BC5F1D8C68BC00E79B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3500BC611D8C68BC00E79B3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		353F9DB11D8C776900326400 /* MyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
@@ -54,6 +56,8 @@
 		60067F1F20013E1C009BEE5E /* TargetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetComponent.swift; sourceTree = "<group>"; };
 		60067F2120013E33009BEE5E /* ZombieEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZombieEntity.swift; sourceTree = "<group>"; };
 		60067F2320014556009BEE5E /* SeekBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeekBehavior.swift; sourceTree = "<group>"; };
+		C7875BA320175291003CC5AA /* HeartDropEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartDropEntity.swift; sourceTree = "<group>"; };
+		C7875BA5201753A8003CC5AA /* DogEnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogEnemyEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +97,7 @@
 				353F9DC21D8C833D00326400 /* MainMenuScene.swift */,
 				3500BC571D8C68BC00E79B3A /* GameViewController.swift */,
 				3500BC591D8C68BC00E79B3A /* Main.storyboard */,
-				3500BC5C1D8C68BC00E79B3A /* Assets.xcassets */,
+				3500BC5C1D8C68BC00E79B3A /* assets.xcassets */,
 				3500BC5E1D8C68BC00E79B3A /* LaunchScreen.storyboard */,
 				3500BC611D8C68BC00E79B3A /* Info.plist */,
 				353F9DB11D8C776900326400 /* MyUtils.swift */,
@@ -104,6 +108,8 @@
 				60067F2320014556009BEE5E /* SeekBehavior.swift */,
 				60067F1F20013E1C009BEE5E /* TargetComponent.swift */,
 				60067F2120013E33009BEE5E /* ZombieEntity.swift */,
+				C7875BA320175291003CC5AA /* HeartDropEntity.swift */,
+				C7875BA5201753A8003CC5AA /* DogEnemyEntity.swift */,
 			);
 			path = ZombieConga;
 			sourceTree = "<group>";
@@ -183,7 +189,7 @@
 				3500BC5B1D8C68BC00E79B3A /* Main.storyboard in Resources */,
 				353F9DBD1D8C7D6100326400 /* win.wav in Resources */,
 				353F9DBA1D8C7D6100326400 /* hitCat.wav in Resources */,
-				3500BC5D1D8C68BC00E79B3A /* Assets.xcassets in Resources */,
+				3500BC5D1D8C68BC00E79B3A /* assets.xcassets in Resources */,
 				353F9DBC1D8C7D6100326400 /* lose.wav in Resources */,
 				353F9DBB1D8C7D6100326400 /* hitCatLady.wav in Resources */,
 				353F9DB91D8C7D6100326400 /* backgroundMusic.mp3 in Resources */,
@@ -204,9 +210,11 @@
 				353F9DC11D8C821900326400 /* GameOverScene.swift in Sources */,
 				60067F1A20013B61009BEE5E /* SpriteComponent.swift in Sources */,
 				3500BC561D8C68BC00E79B3A /* GameScene.swift in Sources */,
+				C7875BA6201753A8003CC5AA /* DogEnemyEntity.swift in Sources */,
 				60067F2020013E1C009BEE5E /* TargetComponent.swift in Sources */,
 				3500BC581D8C68BC00E79B3A /* GameViewController.swift in Sources */,
 				3500BC501D8C68BC00E79B3A /* AppDelegate.swift in Sources */,
+				C7875BA420175291003CC5AA /* HeartDropEntity.swift in Sources */,
 				353F9DB21D8C776900326400 /* MyUtils.swift in Sources */,
 				60067F1E20013DB0009BEE5E /* SeekComponent.swift in Sources */,
 				60067F1C20013BCF009BEE5E /* EnemyEntity.swift in Sources */,

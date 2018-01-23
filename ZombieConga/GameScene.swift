@@ -48,9 +48,12 @@ import SpriteKit
 
 class GameScene: SKScene {
   
+  //  var heartDrop : SKSpriteNode
+  //  var heartDropEntity : HeartDropEntity
   var zombie : SKSpriteNode
   var zombieEntity : ZombieEntity
   var enemyEntity :EnemyEntity
+  var dogEnemyEntity :DogEnemyEntity
   var lastUpdateTime: TimeInterval = 0
   var dt: TimeInterval = 0
   let zombieMovePointsPerSec: CGFloat = 480.0
@@ -84,7 +87,9 @@ class GameScene: SKScene {
     
     zombieEntity = ZombieEntity()
     enemyEntity = EnemyEntity(initTarget : zombieEntity.component(ofType: TargetComponent.self)!)
+    dogEnemyEntity = DogEnemyEntity(initTarget : zombieEntity.component(ofType: TargetComponent.self)!)
     zombie = zombieEntity.component(ofType: SpriteComponent.self)!.node
+    //HeartDropEntity = HeartDropEntity()
     
     /////
     // 1
@@ -145,12 +150,21 @@ class GameScene: SKScene {
                          ////////
                          SKAction.run() {self.enemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
 ////////
+    run(SKAction.repeatForever(
+        SKAction.sequence([SKAction.run() { [weak self] in
+            self?.spawnDogEnemy()
+            },
+                           SKAction.wait(forDuration: 5.0),
+                           
+                           ////////
+            SKAction.run() {self.dogEnemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
     
     run(SKAction.repeatForever(
       SKAction.sequence([SKAction.run() { [weak self] in
                           self?.spawnCat()
                         },
                         SKAction.wait(forDuration: 1.0)])))
+    
     
     // debugDrawPlayableArea()
     
@@ -191,6 +205,7 @@ class GameScene: SKScene {
     lastUpdateTime = currentTime
     enemyEntity.component(ofType: SeekComponent.self)!.update(deltaTime: dt)
     zombieEntity.component(ofType: TargetComponent.self)!.update(deltaTime: dt)
+    dogEnemyEntity.component(ofType: SeekComponent.self)!.update(deltaTime: dt)
     /*
     if let lastTouchLocation = lastTouchLocation {
       let diff = lastTouchLocation - zombie.position
@@ -312,7 +327,24 @@ class GameScene: SKScene {
     enemy.zPosition = 50
     enemy.name = "enemy"
     addChild(enemy)
+    }
     
+    
+    func spawnDogEnemy() {
+        
+         let targetComponent = zombieEntity.component(ofType: TargetComponent.self)!
+        
+        let dogEnemy : SKSpriteNode
+        dogEnemyEntity  = DogEnemyEntity(initTarget : targetComponent)
+        dogEnemy = dogEnemyEntity.component(ofType: SpriteComponent.self)!.node
+        dogEnemy.position = CGPoint(
+            x: cameraRect.maxX + dogEnemy.size.width/2,
+            y: CGFloat.random(
+                min: cameraRect.minY + dogEnemy.size.height/2,
+                max: cameraRect.maxY - dogEnemy.size.height/2))
+        dogEnemy.zPosition = 50
+        dogEnemy.name = "dogEnemy"
+        addChild(dogEnemy)
     /*
     let actionMove =
       SKAction.moveBy(x: -(size.width + enemy.size.width), y: 0, duration: 2.0)
