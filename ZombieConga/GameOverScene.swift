@@ -24,10 +24,11 @@ import Foundation
 import SpriteKit
 
 class GameOverScene: SKScene {
-  let won:Bool
-
-  init(size: CGSize, won: Bool) {
-    self.won = won
+    let score:Int
+    let scoreLabel = SKLabelNode(fontNamed: "Glimstick")
+    
+  init(size: CGSize, score: Int) {
+    self.score = score
     super.init(size: size)
   }
   
@@ -37,20 +38,29 @@ class GameOverScene: SKScene {
   
   override func didMove(to view: SKView) {
     var background: SKSpriteNode
-    if (won) {
+    /*if (won) {
       background = SKSpriteNode(imageNamed: "YouWin")
       run(SKAction.playSoundFileNamed("win.wav", 
           waitForCompletion: false))
-    } else {
+    } else {*/
       background = SKSpriteNode(imageNamed: "YouLose")
       run(SKAction.playSoundFileNamed("lose.wav", 
           waitForCompletion: false))
-    }
+    //}
     
     background.position = 
       CGPoint(x: size.width/2, y: size.height/2)
     self.addChild(background)
-    
+    scoreLabel.text = "Score: \(score)"
+    scoreLabel.fontColor = SKColor.black
+    scoreLabel.fontSize = 100
+    scoreLabel.zPosition = 150
+    scoreLabel.horizontalAlignmentMode = .center
+    scoreLabel.verticalAlignmentMode = .center
+    scoreLabel.position = CGPoint(
+        x: size.width/2 - CGFloat(20),
+        y: size.height/2 - CGFloat(20))
+    self.addChild(scoreLabel)
     // More here...
     let wait = SKAction.wait(forDuration: 3.0)
     let block = SKAction.run {

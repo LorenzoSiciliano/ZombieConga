@@ -219,7 +219,7 @@ class GameScene: SKScene {
       backgroundMusicPlayer.stop()
       
       // 1
-      let gameOverScene = GameOverScene(size: size, won: false)
+      let gameOverScene = GameOverScene(size: size, score: score)
       gameOverScene.scaleMode = scaleMode
       // 2
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)

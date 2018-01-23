@@ -11,7 +11,7 @@
 		3500BC561D8C68BC00E79B3A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3500BC551D8C68BC00E79B3A /* GameScene.swift */; };
 		3500BC581D8C68BC00E79B3A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3500BC571D8C68BC00E79B3A /* GameViewController.swift */; };
 		3500BC5B1D8C68BC00E79B3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC591D8C68BC00E79B3A /* Main.storyboard */; };
-		3500BC5D1D8C68BC00E79B3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC5C1D8C68BC00E79B3A /* Assets.xcassets */; };
+		3500BC5D1D8C68BC00E79B3A /* assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC5C1D8C68BC00E79B3A /* assets.xcassets */; };
 		3500BC601D8C68BC00E79B3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3500BC5E1D8C68BC00E79B3A /* LaunchScreen.storyboard */; };
 		353F9DB21D8C776900326400 /* MyUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353F9DB11D8C776900326400 /* MyUtils.swift */; };
 		353F9DB91D8C7D6100326400 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 353F9DB41D8C7D6100326400 /* backgroundMusic.mp3 */; };
@@ -36,7 +36,7 @@
 		3500BC551D8C68BC00E79B3A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		3500BC571D8C68BC00E79B3A /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		3500BC5A1D8C68BC00E79B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		3500BC5C1D8C68BC00E79B3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3500BC5C1D8C68BC00E79B3A /* assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = assets.xcassets; path = ZombieConga/assets.xcassets; sourceTree = SOURCE_ROOT; };
 		3500BC5F1D8C68BC00E79B3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3500BC611D8C68BC00E79B3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		353F9DB11D8C776900326400 /* MyUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUtils.swift; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 				353F9DC21D8C833D00326400 /* MainMenuScene.swift */,
 				3500BC571D8C68BC00E79B3A /* GameViewController.swift */,
 				3500BC591D8C68BC00E79B3A /* Main.storyboard */,
-				3500BC5C1D8C68BC00E79B3A /* Assets.xcassets */,
+				3500BC5C1D8C68BC00E79B3A /* assets.xcassets */,
 				3500BC5E1D8C68BC00E79B3A /* LaunchScreen.storyboard */,
 				3500BC611D8C68BC00E79B3A /* Info.plist */,
 				353F9DB11D8C776900326400 /* MyUtils.swift */,
@@ -183,7 +183,7 @@
 				3500BC5B1D8C68BC00E79B3A /* Main.storyboard in Resources */,
 				353F9DBD1D8C7D6100326400 /* win.wav in Resources */,
 				353F9DBA1D8C7D6100326400 /* hitCat.wav in Resources */,
-				3500BC5D1D8C68BC00E79B3A /* Assets.xcassets in Resources */,
+				3500BC5D1D8C68BC00E79B3A /* assets.xcassets in Resources */,
 				353F9DBC1D8C7D6100326400 /* lose.wav in Resources */,
 				353F9DBB1D8C7D6100326400 /* hitCatLady.wav in Resources */,
 				353F9DB91D8C7D6100326400 /* backgroundMusic.mp3 in Resources */,
