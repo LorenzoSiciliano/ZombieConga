@@ -65,7 +65,7 @@ class GameOverScene: SKScene {
     buttonPlayAgain.name = "playAgain"
     buttonPlayAgain.position = CGPoint(x: size.width/2,
                                        y: size.height/2 - CGFloat(400))
-    addChild(buttonPlayAgain)
+    self.addChild(buttonPlayAgain)
     // More here...
     /*let wait = SKAction.wait(forDuration: 3.0)
     let block = SKAction.run {
