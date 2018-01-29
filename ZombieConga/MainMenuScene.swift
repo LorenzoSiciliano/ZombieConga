@@ -24,11 +24,16 @@ import Foundation
 import SpriteKit
 
 class MainMenuScene: SKScene {
- 
-  override func didMove(to view: SKView) {
     let background = SKSpriteNode(imageNamed: "MainMenu")
+    let buttonPlay = SKSpriteNode(imageNamed: "buttonPlay")
+  
+    override func didMove(to view: SKView) {
     background.position = CGPoint(x: size.width/2, y: size.height/2)
+    buttonPlay.position = CGPoint(x: size.width/2, y: size.height/2 - CGFloat(200))
+    buttonPlay.name = "buttonPlay"
     addChild(background)
+    addChild(buttonPlay)
+    
   }
   
   func sceneTapped() {
@@ -38,9 +43,16 @@ class MainMenuScene: SKScene {
     view?.presentScene(myScene, transition: reveal)
   }
 
-  override func touchesBegan(_ touches: Set<UITouch>,
-                             with event: UIEvent?) {
-    sceneTapped()
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    let touch = touches.first as UITouch!
+    let touchLocation = touch!.location(in: self)
+    let targetNode = atPoint(touchLocation) as! SKSpriteNode
+    if let name = targetNode.name {
+        if name == "buttonPlay" {
+            sceneTapped()
+        }
+    }
+    
   }
 
 }

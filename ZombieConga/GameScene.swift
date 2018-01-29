@@ -39,9 +39,9 @@
  2) The truncatingRemainder method returns the remainder of the first parameter (elapsedTime) after being divided by the second parameter (slice). So in this example, it gives you the amount of time that has elapsed in this "slice" calculated earlier.
  
  3) The hidden property on a node controls whether it is rendered or not. If the remainder calculated above is in the second half of the slice, it should be hidden (invisible). Otherwise it will be visible. Hence, the blink effect!
-
-Note that you can also accomplish a blink effect with a combination of hide() and unhide() actions, as you see in HideScene. 
-
+ 
+ Note that you can also accomplish a blink effect with a combination of hide() and unhide() actions, as you see in HideScene.
+ 
  */
 
 import SpriteKit
@@ -152,7 +152,9 @@ class GameScene: SKScene {
       background.name = "background"
       background.zPosition = -1
       addChild(background)
+
     }
+
     zombie.position = CGPoint(x: 400, y: 400)
     zombie.zPosition = 100
     addChild(zombie)
@@ -191,17 +193,17 @@ class GameScene: SKScene {
     cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
     
     livesLabel.text = "Lives: X"
-    livesLabel.fontColor = SKColor.black
+    livesLabel.fontColor = SKColor.white
     livesLabel.fontSize = 100
     livesLabel.zPosition = 150
     livesLabel.horizontalAlignmentMode = .left
-    livesLabel.verticalAlignmentMode = .bottom
+    livesLabel.verticalAlignmentMode = .top
     livesLabel.position = CGPoint(
       x: -playableRect.size.width/2 + CGFloat(20),
-      y: -playableRect.size.height/2 + CGFloat(20))
+      y: playableRect.size.height/2 - CGFloat(20))
     cameraNode.addChild(livesLabel)
     scoreLabel.text = "Score: X"
-    scoreLabel.fontColor = SKColor.black
+    scoreLabel.fontColor = SKColor.white
     scoreLabel.fontSize = 100
     scoreLabel.zPosition = 150
     scoreLabel.horizontalAlignmentMode = .right
@@ -220,6 +222,7 @@ class GameScene: SKScene {
     } else {
       dt = 0
     }
+    
     lastUpdateTime = currentTime
     enemyEntity.component(ofType: SeekComponent.self)!.update(deltaTime: dt)
     zombieEntity.component(ofType: TargetComponent.self)!.update(deltaTime: dt)
@@ -234,6 +237,7 @@ class GameScene: SKScene {
       } else {
       */
         move(sprite: zombie, velocity: velocity)
+
         rotate(sprite: zombie, direction: velocity, 
           rotateRadiansPerSec: zombieRotateRadiansPerSec)
       /*}
@@ -252,70 +256,73 @@ class GameScene: SKScene {
       backgroundMusicPlayer.stop()
       
       // 1
-      let gameOverScene = GameOverScene(size: size, won: false)
+      let gameOverScene = GameOverScene(size: size, score: score)
       gameOverScene.scaleMode = scaleMode
       // 2
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
       // 3
       view?.presentScene(gameOverScene, transition: reveal)
-    }
-    
-    // cameraNode.position = zombie.position
-    
-  }
-  
-  func move(sprite: SKSpriteNode, velocity: CGPoint) {
-    let amountToMove = CGPoint(x: velocity.x * CGFloat(dt), 
-                               y: velocity.y * CGFloat(dt))
-    sprite.position += amountToMove
-  }
-  
-  func moveZombieToward(location: CGPoint) {
-    startZombieAnimation()
-    let offset = location - zombie.position
-    let direction = offset.normalized()
-    velocity = direction * zombieMovePointsPerSec
-  }
-  
-  func sceneTouched(touchLocation:CGPoint) {
-    lastTouchLocation = touchLocation
-    moveZombieToward(location: touchLocation)
-  }
 
-  override func touchesBegan(_ touches: Set<UITouch>,
-      with event: UIEvent?) {
-    guard let touch = touches.first else {
-      return
     }
-    let touchLocation = touch.location(in: self)
-    sceneTouched(touchLocation: touchLocation)
-  }
-
-  override func touchesMoved(_ touches: Set<UITouch>,
-      with event: UIEvent?) {
-    guard let touch = touches.first else {
-      return
-    }
-    let touchLocation = touch.location(in: self)
-    sceneTouched(touchLocation: touchLocation)
-  }
-  
-  func boundsCheckZombie() {
-    let bottomLeft = CGPoint(x: cameraRect.minX, y: cameraRect.minY)
-    let topRight = CGPoint(x: cameraRect.maxX, y: cameraRect.maxY)
     
-    if zombie.position.x <= bottomLeft.x {
-      zombie.position.x = bottomLeft.x
-      velocity.x = abs(velocity.x)
+    func move(sprite: SKSpriteNode, velocity: CGPoint) {
+        let amountToMove = CGPoint(x: velocity.x * CGFloat(dt),
+                                   y: velocity.y * CGFloat(dt))
+        sprite.position += amountToMove
     }
-    if zombie.position.x >= topRight.x {
-      zombie.position.x = topRight.x
-      velocity.x = -velocity.x
+    
+    func moveZombieToward(location: CGPoint) {
+        startZombieAnimation()
+        let offset = location - zombie.position
+        let direction = offset.normalized()
+        velocity = direction * zombieMovePointsPerSec
     }
-    if zombie.position.y <= bottomLeft.y {
-      zombie.position.y = bottomLeft.y
-      velocity.y = -velocity.y
+    
+    func sceneTouched(touchLocation:CGPoint) {
+        lastTouchLocation = touchLocation
+        moveZombieToward(location: touchLocation)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        let touchLocation = touch.location(in: self)
+        sceneTouched(touchLocation: touchLocation)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        guard let touch = touches.first else {
+            return
+        }
+        let touchLocation = touch.location(in: self)
+        sceneTouched(touchLocation: touchLocation)
+    }
+    
+    func boundsCheckZombie() {
+        let bottomLeft = CGPoint(x: cameraRect.minX, y: cameraRect.minY)
+        let topRight = CGPoint(x: cameraRect.maxX, y: cameraRect.maxY)
+        
+        if zombie.position.x <= bottomLeft.x {
+            zombie.position.x = bottomLeft.x
+            velocity.x = abs(velocity.x)
+        }
+        if zombie.position.x >= topRight.x {
+            zombie.position.x = topRight.x
+            velocity.x = -velocity.x
+        }
+        if zombie.position.y <= bottomLeft.y {
+            zombie.position.y = bottomLeft.y
+            velocity.y = -velocity.y
+        }
+        if zombie.position.y >= topRight.y {
+            zombie.position.y = topRight.y
+            velocity.y = -velocity.y
+        }
+    }
+
     if zombie.position.y >= topRight.y {
       zombie.position.y = topRight.y
       velocity.y = -velocity.y
@@ -430,30 +437,75 @@ class GameScene: SKScene {
     cat.setScale(1.0)
     cat.zRotation = 0
     
-    let turnGreen = SKAction.colorize(with: SKColor.green, colorBlendFactor: 1.0, duration: 0.2)
-    cat.run(turnGreen)
-    
-    run(catCollisionSound)
-    score += 1
-  }
-
-  func zombieHit(enemy: SKSpriteNode) {
-    invincible = true
-    let blinkTimes = 10.0
-    let duration = 3.0
-    let blinkAction = SKAction.customAction(withDuration: duration) { node, elapsedTime in
-      let slice = duration / blinkTimes
-      let remainder = Double(elapsedTime).truncatingRemainder(
-        dividingBy: slice)
-      node.isHidden = remainder > slice / 2
+    func spawnEnemy() {
+        
+        ///////
+        let targetComponent = zombieEntity.component(ofType: TargetComponent.self)!
+        enemyEntity  = EnemyEntity(initTarget : targetComponent)
+        let enemy : SKSpriteNode
+        ///////
+        
+        enemy = enemyEntity.component(ofType: SpriteComponent.self)!.node
+        enemy.position = CGPoint(
+            x: cameraRect.maxX + enemy.size.width/2,
+            y: CGFloat.random(
+                min: cameraRect.minY + enemy.size.height/2,
+                max: cameraRect.maxY - enemy.size.height/2))
+        enemy.zPosition = 50
+        enemy.name = "enemy"
+        addChild(enemy)
+        
+        /*
+         let actionMove =
+         SKAction.moveBy(x: -(size.width + enemy.size.width), y: 0, duration: 2.0)
+         let actionRemove = SKAction.removeFromParent()
+         enemy.run(SKAction.sequence([actionMove, actionRemove]))
+         */
+        
     }
-    let setHidden = SKAction.run() { [weak self] in
-      self?.zombie.isHidden = false
-      self?.invincible = false
-    }
-    zombie.run(SKAction.sequence([blinkAction, setHidden]))
     
-    run(enemyCollisionSound)
+    func spawnHeart() {
+        
+        // 1
+        let heart = SKSpriteNode(imageNamed: "heart-drop")
+        heart.name = "heart"
+        heart.position = CGPoint(
+            x: CGFloat.random(min: cameraRect.minX,
+                              max: cameraRect.maxX),
+            y: CGFloat.random(min: cameraRect.minY,
+                              max: cameraRect.maxY))
+        heart.zPosition = 50
+        heart.setScale(1)
+        addChild(heart)
+        // 2
+        let appear = SKAction.scale(to: 2.0, duration: 0.5)
+        
+        heart.zRotation = -π / 16.0
+        
+        let scaleUp = SKAction.scale(by: 1.2, duration: 0.25)
+        let scaleDown = scaleUp.reversed()
+        let fullScale = SKAction.sequence(
+            [scaleUp, scaleDown, scaleUp, scaleDown])
+        let group = SKAction.group([fullScale])
+        let groupWait = SKAction.repeat(group, count: 10)
+        
+        let disappear = SKAction.scale(to: 0, duration: 0.5)
+        let removeFromParent = SKAction.removeFromParent()
+        let actions = [appear, groupWait, disappear, removeFromParent]
+        heart.run(SKAction.sequence(actions))
+    }
+    
+    func startZombieAnimation() {
+        if zombie.action(forKey: "animation") == nil {
+            zombie.run(
+                SKAction.repeatForever(zombieAnimation),
+                withKey: "animation")
+        }
+    }
+    
+    func stopZombieAnimation() {
+        zombie.removeAction(forKey: "animation")
+    }
     
     loseCats()
     lives -= 1
@@ -490,25 +542,99 @@ class GameScene: SKScene {
       }
     }
     
-    for cat in hitCats {
-      zombieHit(cat: cat)
+    func zombieHit(cat: SKSpriteNode) {
+        cat.name = "train"
+        cat.removeAllActions()
+        cat.setScale(1.0)
+        cat.zRotation = 0
+        
+        let turnGreen = SKAction.colorize(with: SKColor.green, colorBlendFactor: 1.0, duration: 0.2)
+        cat.run(turnGreen)
+        
+        run(catCollisionSound)
+        score += 1
     }
     
-    if invincible {
-      return
+    func zombieHit(heart: SKSpriteNode) {
+        
+        
+        //let turnGreen = SKAction.colorize(with: SKColor.green, colorBlendFactor: 1.0, duration: 0.2)
+        let disappear = SKAction.removeFromParent()
+        heart.run(disappear)
+        if lives < 5 {
+            lives += 1
+        }
+        
+        
+        
     }
-   
-    var hitEnemies: [SKSpriteNode] = []
-    enumerateChildNodes(withName: "enemy") { node, _ in
-      let enemy = node as! SKSpriteNode
-      if node.frame.insetBy(dx: 20, dy: 20).intersects(
-        self.zombie.frame) {
-        hitEnemies.append(enemy)
-      }
+    
+    func zombieHit(enemy: SKSpriteNode) {
+        invincible = true
+        let blinkTimes = 10.0
+        let duration = 3.0
+        let blinkAction = SKAction.customAction(withDuration: duration) { node, elapsedTime in
+            let slice = duration / blinkTimes
+            let remainder = Double(elapsedTime).truncatingRemainder(
+                dividingBy: slice)
+            node.isHidden = remainder > slice / 2
+        }
+        let setHidden = SKAction.run() { [weak self] in
+            self?.zombie.isHidden = false
+            self?.invincible = false
+        }
+        zombie.run(SKAction.sequence([blinkAction, setHidden]))
+        
+        run(enemyCollisionSound)
+        
+        loseCats()
+        lives -= 1
     }
-    for enemy in hitEnemies {
-      zombieHit(enemy: enemy)
+    
+    func checkCollisions() {
+        var hitCats: [SKSpriteNode] = []
+        enumerateChildNodes(withName: "cat") { node, _ in
+            let cat = node as! SKSpriteNode
+            if cat.frame.intersects(self.zombie.frame) {
+                hitCats.append(cat)
+            }
+        }
+        
+        for cat in hitCats {
+            zombieHit(cat: cat)
+        }
+        
+        var hitHearts: [SKSpriteNode] = []
+        enumerateChildNodes(withName: "heart") { node, _ in
+            let heart = node as! SKSpriteNode
+            if heart.frame.intersects(self.zombie.frame) {
+                hitHearts.append(heart)
+            }
+        }
+        for heart in hitHearts {
+            zombieHit(heart: heart)
+        }
+        
+        if invincible {
+            return
+        }
+        
+        var hitEnemies: [SKSpriteNode] = []
+        enumerateChildNodes(withName: "enemy") { node, _ in
+            let enemy = node as! SKSpriteNode
+            if node.frame.insetBy(dx: 20, dy: 20).intersects(
+                self.zombie.frame) {
+                hitEnemies.append(enemy)
+            }
+        }
+        for enemy in hitEnemies {
+            zombieHit(enemy: enemy)
+        }
+        
+        
+        
     }
+
   
     var hitDog: [SKSpriteNode] = []
     enumerateChildNodes(withName: "dogEnemy") { node, _ in
@@ -547,104 +673,124 @@ class GameScene: SKScene {
       }
       targetPosition = node.position
     }
-    /*
-    if trainCount >= 15 && !gameOver {
-      gameOver = true
-      print("You win!")
-      backgroundMusicPlayer.stop()
-      
-      // 1
-      let gameOverScene = GameOverScene(size: size, won: true)
-      gameOverScene.scaleMode = scaleMode
-      // 2
-      let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-      // 3
-      view?.presentScene(gameOverScene, transition: reveal)
-    }
-    */
-  }
-  
-  func loseCats() {
-    // 1
-    var loseCount = 0
-    enumerateChildNodes(withName: "train") { node, stop in
-      // 2
-      var randomSpot = node.position
-      randomSpot.x += CGFloat.random(min: -100, max: 100)
-      randomSpot.y += CGFloat.random(min: -100, max: 100)
-      // 3
-      node.name = ""
-      node.run(
-        SKAction.sequence([
-          SKAction.group([
-            SKAction.rotate(byAngle: π*4, duration: 1.0),
-            SKAction.move(to: randomSpot, duration: 1.0),
-            SKAction.scale(to: 0, duration: 1.0)
-            ]),
-          SKAction.removeFromParent()
-        ]))
-      // 4
-      loseCount += 1
-      if loseCount >= 2 {
-        stop[0] = true
-      }
-    }
-  }
-  
-  func backgroundNode() -> SKSpriteNode {
-    // 1
-    let backgroundNode = SKSpriteNode()
-    backgroundNode.anchorPoint = CGPoint.zero
-    backgroundNode.name = "background"
-
-    // 2
-    let background1 = SKSpriteNode(imageNamed: "background1")
-    background1.anchorPoint = CGPoint.zero
-    background1.position = CGPoint(x: 0, y: 0)
-    backgroundNode.addChild(background1)
     
-    // 3
-    let background2 = SKSpriteNode(imageNamed: "background2")
-    background2.anchorPoint = CGPoint.zero
-    background2.position =
-      CGPoint(x: background1.size.width, y: 0)
-    backgroundNode.addChild(background2)
-
-    // 4
-    backgroundNode.size = CGSize(
-      width: background1.size.width + background2.size.width,
-      height: background1.size.height)
-    return backgroundNode
-  }
-  
-  func moveCamera() {
-    let backgroundVelocity =
-      CGPoint(x: cameraMovePointsPerSec, y: 0)
-    let amountToMove = backgroundVelocity * CGFloat(dt)
-    cameraNode.position += amountToMove
-    
-    enumerateChildNodes(withName: "background") { node, _ in
-      let background = node as! SKSpriteNode
-      if background.position.x + background.size.width < 
-          self.cameraRect.origin.x {
-        background.position = CGPoint(
-          x: background.position.x + background.size.width*2,
-          y: background.position.y)
-      }
+    func moveTrain() {
+        
+        var trainCount = 0
+        var targetPosition = zombie.position
+        
+        enumerateChildNodes(withName: "train") { node, stop in
+            trainCount += 1
+            if !node.hasActions() {
+                let actionDuration = 0.3
+                let offset = targetPosition - node.position
+                let direction = offset.normalized()
+                let amountToMovePerSec = direction * self.catMovePointsPerSec
+                let amountToMove = amountToMovePerSec * CGFloat(actionDuration)
+                let moveAction = SKAction.moveBy(x: amountToMove.x, y: amountToMove.y, duration: actionDuration)
+                node.run(moveAction)
+            }
+            targetPosition = node.position
+        }
+        /*
+         if trainCount >= 15 && !gameOver {
+         gameOver = true
+         print("You win!")
+         backgroundMusicPlayer.stop()
+         
+         // 1
+         let gameOverScene = GameOverScene(size: size, won: true)
+         gameOverScene.scaleMode = scaleMode
+         // 2
+         let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+         // 3
+         view?.presentScene(gameOverScene, transition: reveal)
+         }
+         */
     }
     
-  }
-  
-  var cameraRect : CGRect {
-    let x = cameraNode.position.x - size.width/2
-        + (size.width - playableRect.width)/2
-    let y = cameraNode.position.y - size.height/2
-        + (size.height - playableRect.height)/2
-    return CGRect(
-      x: x,
-      y: y,
-      width: playableRect.width, 
-      height: playableRect.height)
-  }
-  
+    func loseCats() {
+        // 1
+        var loseCount = 0
+        enumerateChildNodes(withName: "train") { node, stop in
+            // 2
+            var randomSpot = node.position
+            randomSpot.x += CGFloat.random(min: -100, max: 100)
+            randomSpot.y += CGFloat.random(min: -100, max: 100)
+            // 3
+            node.name = ""
+            node.run(
+                SKAction.sequence([
+                    SKAction.group([
+                        SKAction.rotate(byAngle: π*4, duration: 1.0),
+                        SKAction.move(to: randomSpot, duration: 1.0),
+                        SKAction.scale(to: 0, duration: 1.0)
+                        ]),
+                    SKAction.removeFromParent()
+                    ]))
+            // 4
+            loseCount += 1
+            if loseCount >= 2 {
+                stop[0] = true
+            }
+        }
+    }
+    
+    func backgroundNode() -> SKSpriteNode {
+        // 1
+        let backgroundNode = SKSpriteNode()
+        backgroundNode.anchorPoint = CGPoint.zero
+        backgroundNode.name = "background"
+        
+        // 2
+        let background1 = SKSpriteNode(imageNamed: "background1")
+        background1.anchorPoint = CGPoint.zero
+        background1.position = CGPoint(x: 0, y: 0)
+        backgroundNode.addChild(background1)
+        
+        // 3
+        let background2 = SKSpriteNode(imageNamed: "background2")
+        background2.anchorPoint = CGPoint.zero
+        background2.position =
+            CGPoint(x: background1.size.width, y: 0)
+        backgroundNode.addChild(background2)
+        
+        // 4
+        backgroundNode.size = CGSize(
+            width: background1.size.width + background2.size.width,
+            height: background1.size.height)
+        return backgroundNode
+    }
+    
+    func moveCamera() {
+        let backgroundVelocity =
+            CGPoint(x: cameraMovePointsPerSec, y: 0)
+        let amountToMove = backgroundVelocity * CGFloat(dt)
+        cameraNode.position += amountToMove
+        
+        enumerateChildNodes(withName: "background") { node, _ in
+            let background = node as! SKSpriteNode
+            if background.position.x + background.size.width <
+                self.cameraRect.origin.x {
+                background.position = CGPoint(
+                    x: background.position.x + background.size.width*2,
+                    y: background.position.y)
+            }
+        }
+        
+    }
+    
+    var cameraRect : CGRect {
+        let x = cameraNode.position.x - size.width/2
+            + (size.width - playableRect.width)/2
+        let y = cameraNode.position.y - size.height/2
+            + (size.height - playableRect.height)/2
+        return CGRect(
+            x: x,
+            y: y,
+            width: playableRect.width,
+            height: playableRect.height)
+    }
+    
 }
+
