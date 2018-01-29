@@ -24,10 +24,11 @@ import Foundation
 import SpriteKit
 
 class GameOverScene: SKScene {
-  let won:Bool
-
-  init(size: CGSize, won: Bool) {
-    self.won = won
+    let score:Int
+    let scoreLabel = SKLabelNode(fontNamed: "Glimstick")
+    
+  init(size: CGSize, score: Int) {
+    self.score = score
     super.init(size: size)
   }
   
@@ -37,30 +38,59 @@ class GameOverScene: SKScene {
   
   override func didMove(to view: SKView) {
     var background: SKSpriteNode
-    if (won) {
+    /*if (won) {
       background = SKSpriteNode(imageNamed: "YouWin")
       run(SKAction.playSoundFileNamed("win.wav", 
           waitForCompletion: false))
-    } else {
+    } else {*/
       background = SKSpriteNode(imageNamed: "YouLose")
       run(SKAction.playSoundFileNamed("lose.wav", 
           waitForCompletion: false))
-    }
+    //}
     
     background.position = 
       CGPoint(x: size.width/2, y: size.height/2)
     self.addChild(background)
-    
+    scoreLabel.text = "Score: \(score)"
+    scoreLabel.fontColor = SKColor.white
+    scoreLabel.fontSize = 100
+    scoreLabel.zPosition = 150
+    scoreLabel.horizontalAlignmentMode = .right
+    scoreLabel.verticalAlignmentMode = .top
+    scoreLabel.position = CGPoint(
+        x: size.width - CGFloat(50),
+        y: size.height - CGFloat(200))
+    self.addChild(scoreLabel)
+    let buttonPlayAgain = SKSpriteNode(imageNamed: "Play Again Button");
+    buttonPlayAgain.name = "playAgain"
+    buttonPlayAgain.position = CGPoint(x: size.width/2,
+                                       y: size.height/2 - CGFloat(400))
+    self.addChild(buttonPlayAgain)
     // More here...
-    let wait = SKAction.wait(forDuration: 3.0)
+    /*let wait = SKAction.wait(forDuration: 3.0)
     let block = SKAction.run {
       let myScene = GameScene(size: self.size)
       myScene.scaleMode = self.scaleMode
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
       self.view?.presentScene(myScene, transition: reveal)
     }
-    self.run(SKAction.sequence([wait, block]))
     
+    self.run(SKAction.sequence([wait, block]))
+    */
   }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first as UITouch!
+        let touchLocation = touch!.location(in: self)
+        let targetNode = atPoint(touchLocation) as! SKSpriteNode
+        if let name = targetNode.name {
+            if name == "playAgain" {
+                let myScene = GameScene(size: self.size)
+                myScene.scaleMode = self.scaleMode
+                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                self.view?.presentScene(myScene, transition: reveal)
+            }
+        }
+        
+    }
   
 }

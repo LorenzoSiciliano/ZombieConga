@@ -113,83 +113,64 @@ class GameScene: SKScene {
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    zombie.position = CGPoint(x: 400, y: 400)
+    zombie.zPosition = 100
+    addChild(zombie)
     
-    func debugDrawPlayableArea() {
-        let shape = SKShapeNode()
-        let path = CGMutablePath()
-        path.addRect(playableRect)
-        shape.path = path
-        shape.strokeColor = SKColor.red
-        shape.lineWidth = 4.0
-        addChild(shape)
-    }
+    // zombie.run(SKAction.repeatForever(zombieAnimation))
     
-    override func didMove(to view: SKView) {
-        
-        playBackgroundMusic(filename: "backgroundMusic.mp3")
-        
-        for i in 0...1 {
-            let background = backgroundNode()
-            background.anchorPoint = CGPoint.zero
-            background.position = CGPoint(x: CGFloat(i)*background.size.width, y: 0)
-            background.name = "background"
-            background.zPosition = -1
-            addChild(background)
-        }
-        zombie.position = CGPoint(x: 400, y: 400)
-        zombie.zPosition = 100
-        addChild(zombie)
-        
-        // zombie.run(SKAction.repeatForever(zombieAnimation))
-        
-        run(SKAction.repeatForever(
-            SKAction.sequence([SKAction.run() { [weak self] in
-                self?.spawnEnemy()
-                },
-                               SKAction.wait(forDuration: 5.0),
-                               
-                               ////////
-                SKAction.run() {self.enemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
-        ////////
-        
-        run(SKAction.repeatForever(
-            SKAction.sequence([SKAction.run() { [weak self] in
-                self?.spawnCat()
-                },
-                               SKAction.wait(forDuration: 1.0)])))
-        
-        run(SKAction.repeatForever(
-            SKAction.sequence([SKAction.run() { [weak self] in
-                self?.spawnHeart()            },
-                               SKAction.wait(forDuration: 10.0)])))
-        
-        // debugDrawPlayableArea()
-        
-        addChild(cameraNode)
-        camera = cameraNode
-        cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
-        
-        livesLabel.text = "Lives: X"
-        livesLabel.fontColor = SKColor.black
-        livesLabel.fontSize = 100
-        livesLabel.zPosition = 150
-        livesLabel.horizontalAlignmentMode = .left
-        livesLabel.verticalAlignmentMode = .bottom
-        livesLabel.position = CGPoint(
-            x: -playableRect.size.width/2 + CGFloat(20),
-            y: -playableRect.size.height/2 + CGFloat(20))
-        cameraNode.addChild(livesLabel)
-        scoreLabel.text = "Score: X"
-        scoreLabel.fontColor = SKColor.black
-        scoreLabel.fontSize = 100
-        scoreLabel.zPosition = 150
-        scoreLabel.horizontalAlignmentMode = .right
-        scoreLabel.verticalAlignmentMode = .top
-        scoreLabel.position = CGPoint(
-            x: playableRect.size.width/2 - CGFloat(20),
-            y: playableRect.size.height/2 - CGFloat(20))
-        cameraNode.addChild(scoreLabel)
-        
+    run(SKAction.repeatForever(
+      SKAction.sequence([SKAction.run() { [weak self] in
+                      self?.spawnEnemy()
+                    },
+                         SKAction.wait(forDuration: 5.0),
+                         
+                         ////////
+                         SKAction.run() {self.enemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
+////////
+    
+    run(SKAction.repeatForever(
+      SKAction.sequence([SKAction.run() { [weak self] in
+                          self?.spawnCat()
+                        },
+                        SKAction.wait(forDuration: 1.0)])))
+    
+    // debugDrawPlayableArea()
+    
+    addChild(cameraNode)
+    camera = cameraNode
+    cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
+    
+    livesLabel.text = "Lives: X"
+    livesLabel.fontColor = SKColor.white
+    livesLabel.fontSize = 100
+    livesLabel.zPosition = 150
+    livesLabel.horizontalAlignmentMode = .left
+    livesLabel.verticalAlignmentMode = .top
+    livesLabel.position = CGPoint(
+      x: -playableRect.size.width/2 + CGFloat(20),
+      y: playableRect.size.height/2 - CGFloat(20))
+    cameraNode.addChild(livesLabel)
+    scoreLabel.text = "Score: X"
+    scoreLabel.fontColor = SKColor.white
+    scoreLabel.fontSize = 100
+    scoreLabel.zPosition = 150
+    scoreLabel.horizontalAlignmentMode = .right
+    scoreLabel.verticalAlignmentMode = .top
+    scoreLabel.position = CGPoint(
+        x: playableRect.size.width/2 - CGFloat(20),
+        y: playableRect.size.height/2 - CGFloat(20))
+    cameraNode.addChild(scoreLabel)
+    
+  }
+  
+  override func update(_ currentTime: TimeInterval) {
+  
+    if lastUpdateTime > 0 {
+      dt = currentTime - lastUpdateTime
+    } else {
+      dt = 0
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -212,34 +193,32 @@ class GameScene: SKScene {
          } else {
          */
         move(sprite: zombie, velocity: velocity)
-        rotate(sprite: zombie, direction: velocity,
-               rotateRadiansPerSec: zombieRotateRadiansPerSec)
-        /*}
-         }*/
-        
-        boundsCheckZombie()
-        // checkCollisions()
-        moveTrain()
-        moveCamera()
-        livesLabel.text = "Lives: \(lives)"
-        scoreLabel.text = "Score: \(score)"
-        
-        if lives <= 0 && !gameOver {
-            gameOver = true
-            print("You lose!")
-            backgroundMusicPlayer.stop()
-            
-            // 1
-            let gameOverScene = GameOverScene(size: size, won: false)
-            gameOverScene.scaleMode = scaleMode
-            // 2
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            // 3
-            view?.presentScene(gameOverScene, transition: reveal)
-        }
-        
-        // cameraNode.position = zombie.position
-        
+
+        rotate(sprite: zombie, direction: velocity, 
+          rotateRadiansPerSec: zombieRotateRadiansPerSec)
+      /*}
+    }*/
+  
+    boundsCheckZombie()
+    // checkCollisions()
+    moveTrain()
+    moveCamera()
+    livesLabel.text = "Lives: \(lives)"
+    scoreLabel.text = "Score: \(score)"
+    
+    if lives <= 0 && !gameOver {
+      gameOver = true
+      print("You lose!")
+      backgroundMusicPlayer.stop()
+      
+      // 1
+      let gameOverScene = GameOverScene(size: size, score: score)
+      gameOverScene.scaleMode = scaleMode
+      // 2
+      let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+      // 3
+      view?.presentScene(gameOverScene, transition: reveal)
+
     }
     
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
