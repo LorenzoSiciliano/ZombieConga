@@ -18,7 +18,7 @@ class DogEnemyEntity : GKEntity
         let texture = SKTexture(imageNamed: "dog1")
         let spriteComponent = SpriteComponent(texture: texture)
         addComponent(spriteComponent)
-        addComponent(SeekComponent(maxSpeed: 650, maxAcceleration: 5, radius: Float(texture.size().width * 0.3), initTarget:initTarget))
+        addComponent(SeekComponent(maxSpeed: 650, maxAcceleration: 7, radius: Float(texture.size().width * 0.3), initTarget:initTarget))
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -72,13 +72,15 @@ class GameScene: SKScene {
   let catMovePointsPerSec:CGFloat = 480.0
   var lives = 5
   var score = 0
+  let catsForSkill = 30
+  var countToSkill = 0
   var gameOver = false
   let cameraNode = SKCameraNode()
   let cameraMovePointsPerSec: CGFloat = 200.0
   let livesLabel = SKLabelNode(fontNamed: "Glimstick")
   let scoreLabel = SKLabelNode(fontNamed: "Glimstick")
-
-  override init(size: CGSize) {
+  let skill = SKSpriteNode(imageNamed: "buttonHeart")
+    override init(size: CGSize) {
     let maxAspectRatio:CGFloat = 16.0/9.0
     let playableHeight = size.width / maxAspectRatio
     let playableMargin = (size.height-playableHeight)/2.0
@@ -216,7 +218,14 @@ class GameScene: SKScene {
         x: playableRect.size.width/2 - CGFloat(20),
         y: playableRect.size.height/2 - CGFloat(20))
     cameraNode.addChild(scoreLabel)
-    
+    skill.color = SKColor.black
+    skill.name = "buttonHeart"
+    skill.zPosition = 150
+    skill.position = CGPoint(
+        x: playableRect.size.width/2 - CGFloat(120),
+        y: -playableRect.size.height/2 + CGFloat(120))
+    cameraNode.addChild(skill)
+    skill.run(SKAction.colorize(with: SKColor.lightGray, colorBlendFactor: 1.0, duration: 0))
   }
   
   override func update(_ currentTime: TimeInterval) {
@@ -294,6 +303,14 @@ class GameScene: SKScene {
         }
         let touchLocation = touch.location(in: self)
         sceneTouched(touchLocation: touchLocation)
+        let targetNode = atPoint(touchLocation) as! SKSpriteNode
+        if let name = targetNode.name {
+            if name == "buttonHeart" && countToSkill == catsForSkill && lives != 5{
+                lives = 5
+                countToSkill = 0
+                skill.run(SKAction.colorize(with: SKColor.lightGray, colorBlendFactor: 1.0, duration: 0.2))
+            }
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>,
@@ -495,6 +512,13 @@ class GameScene: SKScene {
         
         run(catCollisionSound)
         score += 1
+        if countToSkill < catsForSkill {
+            countToSkill += 1
+            if countToSkill == catsForSkill {
+                skill.run(SKAction.colorize(with: SKColor.red, colorBlendFactor: 1.0, duration: 0.2))
+            }
+        }
+        
     }
     
     func zombieHit(heart: SKSpriteNode) {
@@ -710,6 +734,5 @@ class GameScene: SKScene {
             width: playableRect.width,
             height: playableRect.height)
     }
-    
 }
 
