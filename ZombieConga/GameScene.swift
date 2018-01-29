@@ -264,7 +264,7 @@ class GameScene: SKScene {
       view?.presentScene(gameOverScene, transition: reveal)
 
     }
-    
+    }
     func move(sprite: SKSpriteNode, velocity: CGPoint) {
         let amountToMove = CGPoint(x: velocity.x * CGFloat(dt),
                                    y: velocity.y * CGFloat(dt))
@@ -321,12 +321,6 @@ class GameScene: SKScene {
             zombie.position.y = topRight.y
             velocity.y = -velocity.y
         }
-    }
-
-    if zombie.position.y >= topRight.y {
-      zombie.position.y = topRight.y
-      velocity.y = -velocity.y
-    } 
   }
   
   func rotate(sprite: SKSpriteNode, direction: CGPoint, rotateRadiansPerSec: CGFloat) {
@@ -431,38 +425,6 @@ class GameScene: SKScene {
     cat.run(SKAction.sequence(actions))
   }
 
-  func zombieHit(cat: SKSpriteNode) {
-    cat.name = "train"
-    cat.removeAllActions()
-    cat.setScale(1.0)
-    cat.zRotation = 0
-    
-    func spawnEnemy() {
-        
-        ///////
-        let targetComponent = zombieEntity.component(ofType: TargetComponent.self)!
-        enemyEntity  = EnemyEntity(initTarget : targetComponent)
-        let enemy : SKSpriteNode
-        ///////
-        
-        enemy = enemyEntity.component(ofType: SpriteComponent.self)!.node
-        enemy.position = CGPoint(
-            x: cameraRect.maxX + enemy.size.width/2,
-            y: CGFloat.random(
-                min: cameraRect.minY + enemy.size.height/2,
-                max: cameraRect.maxY - enemy.size.height/2))
-        enemy.zPosition = 50
-        enemy.name = "enemy"
-        addChild(enemy)
-        
-        /*
-         let actionMove =
-         SKAction.moveBy(x: -(size.width + enemy.size.width), y: 0, duration: 2.0)
-         let actionRemove = SKAction.removeFromParent()
-         enemy.run(SKAction.sequence([actionMove, actionRemove]))
-         */
-        
-    }
     
     func spawnHeart() {
         
@@ -494,22 +456,7 @@ class GameScene: SKScene {
         let actions = [appear, groupWait, disappear, removeFromParent]
         heart.run(SKAction.sequence(actions))
     }
-    
-    func startZombieAnimation() {
-        if zombie.action(forKey: "animation") == nil {
-            zombie.run(
-                SKAction.repeatForever(zombieAnimation),
-                withKey: "animation")
-        }
-    }
-    
-    func stopZombieAnimation() {
-        zombie.removeAction(forKey: "animation")
-    }
-    
-    loseCats()
-    lives -= 1
-  }
+
     
     func zombieHit(dog: SKSpriteNode) {
         invincible = true
@@ -531,15 +478,6 @@ class GameScene: SKScene {
         
         loseCats()
         lives -= 1
-    }
-
-  func checkCollisions() {
-    var hitCats: [SKSpriteNode] = []
-    enumerateChildNodes(withName: "cat") { node, _ in
-      let cat = node as! SKSpriteNode
-      if cat.frame.intersects(self.zombie.frame) {
-        hitCats.append(cat)
-      }
     }
     
     func zombieHit(cat: SKSpriteNode) {
@@ -630,21 +568,16 @@ class GameScene: SKScene {
         for enemy in hitEnemies {
             zombieHit(enemy: enemy)
         }
-        
-        
-        
-    }
-
   
     var hitDog: [SKSpriteNode] = []
     enumerateChildNodes(withName: "dogEnemy") { node, _ in
         let dog = node as! SKSpriteNode
         if node.frame.insetBy(dx: 20, dy: 20).intersects(
             self.zombie.frame) {
-            hitEnemies.append(dog)
+            hitDog.append(dog)
         }
     }
-    for dog in hitEnemies {
+    for dog in hitDog {
         zombieHit(dog: dog)
     }
     
@@ -674,24 +607,6 @@ class GameScene: SKScene {
       targetPosition = node.position
     }
     
-    func moveTrain() {
-        
-        var trainCount = 0
-        var targetPosition = zombie.position
-        
-        enumerateChildNodes(withName: "train") { node, stop in
-            trainCount += 1
-            if !node.hasActions() {
-                let actionDuration = 0.3
-                let offset = targetPosition - node.position
-                let direction = offset.normalized()
-                let amountToMovePerSec = direction * self.catMovePointsPerSec
-                let amountToMove = amountToMovePerSec * CGFloat(actionDuration)
-                let moveAction = SKAction.moveBy(x: amountToMove.x, y: amountToMove.y, duration: actionDuration)
-                node.run(moveAction)
-            }
-            targetPosition = node.position
-        }
         /*
          if trainCount >= 15 && !gameOver {
          gameOver = true
