@@ -52,25 +52,45 @@ class GameOverScene: SKScene {
       CGPoint(x: size.width/2, y: size.height/2)
     self.addChild(background)
     scoreLabel.text = "Score: \(score)"
-    scoreLabel.fontColor = SKColor.black
+    scoreLabel.fontColor = SKColor.white
     scoreLabel.fontSize = 100
     scoreLabel.zPosition = 150
-    scoreLabel.horizontalAlignmentMode = .center
-    scoreLabel.verticalAlignmentMode = .center
+    scoreLabel.horizontalAlignmentMode = .right
+    scoreLabel.verticalAlignmentMode = .top
     scoreLabel.position = CGPoint(
-        x: size.width/2 - CGFloat(20),
-        y: size.height/2 - CGFloat(20))
+        x: size.width - CGFloat(50),
+        y: size.height - CGFloat(200))
     self.addChild(scoreLabel)
+    let buttonPlayAgain = SKSpriteNode(imageNamed: "Play Again Button");
+    buttonPlayAgain.name = "playAgain"
+    buttonPlayAgain.position = CGPoint(x: size.width/2,
+                                       y: size.height/2 - CGFloat(400))
+    addChild(buttonPlayAgain)
     // More here...
-    let wait = SKAction.wait(forDuration: 3.0)
+    /*let wait = SKAction.wait(forDuration: 3.0)
     let block = SKAction.run {
       let myScene = GameScene(size: self.size)
       myScene.scaleMode = self.scaleMode
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
       self.view?.presentScene(myScene, transition: reveal)
     }
-    self.run(SKAction.sequence([wait, block]))
     
+    self.run(SKAction.sequence([wait, block]))
+    */
   }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first as UITouch!
+        let touchLocation = touch!.location(in: self)
+        let targetNode = atPoint(touchLocation) as! SKSpriteNode
+        if let name = targetNode.name {
+            if name == "playAgain" {
+                let myScene = GameScene(size: self.size)
+                myScene.scaleMode = self.scaleMode
+                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                self.view?.presentScene(myScene, transition: reveal)
+            }
+        }
+        
+    }
   
 }

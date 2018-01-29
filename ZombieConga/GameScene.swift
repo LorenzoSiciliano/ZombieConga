@@ -65,7 +65,7 @@ class GameScene: SKScene {
     "hitCatLady.wav", waitForCompletion: false)
   var invincible = false
   let catMovePointsPerSec:CGFloat = 480.0
-  var lives = 5
+  var lives = 1
   var score = 0
   var gameOver = false
   let cameraNode = SKCameraNode()
@@ -159,7 +159,7 @@ class GameScene: SKScene {
     cameraNode.position = CGPoint(x: size.width/2, y: size.height/2)
     
     livesLabel.text = "Lives: X"
-    livesLabel.fontColor = SKColor.black
+    livesLabel.fontColor = SKColor.white
     livesLabel.fontSize = 100
     livesLabel.zPosition = 150
     livesLabel.horizontalAlignmentMode = .left
@@ -169,7 +169,7 @@ class GameScene: SKScene {
       y: -playableRect.size.height/2 + CGFloat(20))
     cameraNode.addChild(livesLabel)
     scoreLabel.text = "Score: X"
-    scoreLabel.fontColor = SKColor.black
+    scoreLabel.fontColor = SKColor.white
     scoreLabel.fontSize = 100
     scoreLabel.zPosition = 150
     scoreLabel.horizontalAlignmentMode = .right
