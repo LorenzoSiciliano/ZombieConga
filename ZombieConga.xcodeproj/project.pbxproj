@@ -28,6 +28,8 @@
 		60067F2020013E1C009BEE5E /* TargetComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60067F1F20013E1C009BEE5E /* TargetComponent.swift */; };
 		60067F2220013E33009BEE5E /* ZombieEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60067F2120013E33009BEE5E /* ZombieEntity.swift */; };
 		60067F2420014556009BEE5E /* SeekBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60067F2320014556009BEE5E /* SeekBehavior.swift */; };
+		C7875BA420175291003CC5AA /* HeartDropEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7875BA320175291003CC5AA /* HeartDropEntity.swift */; };
+		C7875BA6201753A8003CC5AA /* DogEnemyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7875BA5201753A8003CC5AA /* DogEnemyEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		60067F1F20013E1C009BEE5E /* TargetComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetComponent.swift; sourceTree = "<group>"; };
 		60067F2120013E33009BEE5E /* ZombieEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZombieEntity.swift; sourceTree = "<group>"; };
 		60067F2320014556009BEE5E /* SeekBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeekBehavior.swift; sourceTree = "<group>"; };
+		C7875BA320175291003CC5AA /* HeartDropEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartDropEntity.swift; sourceTree = "<group>"; };
+		C7875BA5201753A8003CC5AA /* DogEnemyEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogEnemyEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,8 @@
 				60067F2320014556009BEE5E /* SeekBehavior.swift */,
 				60067F1F20013E1C009BEE5E /* TargetComponent.swift */,
 				60067F2120013E33009BEE5E /* ZombieEntity.swift */,
+				C7875BA320175291003CC5AA /* HeartDropEntity.swift */,
+				C7875BA5201753A8003CC5AA /* DogEnemyEntity.swift */,
 			);
 			path = ZombieConga;
 			sourceTree = "<group>";
@@ -204,9 +210,11 @@
 				353F9DC11D8C821900326400 /* GameOverScene.swift in Sources */,
 				60067F1A20013B61009BEE5E /* SpriteComponent.swift in Sources */,
 				3500BC561D8C68BC00E79B3A /* GameScene.swift in Sources */,
+				C7875BA6201753A8003CC5AA /* DogEnemyEntity.swift in Sources */,
 				60067F2020013E1C009BEE5E /* TargetComponent.swift in Sources */,
 				3500BC581D8C68BC00E79B3A /* GameViewController.swift in Sources */,
 				3500BC501D8C68BC00E79B3A /* AppDelegate.swift in Sources */,
+				C7875BA420175291003CC5AA /* HeartDropEntity.swift in Sources */,
 				353F9DB21D8C776900326400 /* MyUtils.swift in Sources */,
 				60067F1E20013DB0009BEE5E /* SeekComponent.swift in Sources */,
 				60067F1C20013BCF009BEE5E /* EnemyEntity.swift in Sources */,
