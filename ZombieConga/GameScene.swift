@@ -51,6 +51,7 @@ class GameScene: SKScene {
   //  var heartDrop : SKSpriteNode
   //  var heartDropEntity : HeartDropEntity
   var zombie : SKSpriteNode
+  var dog : SKSpriteNode
   var zombieEntity : ZombieEntity
   var enemyEntity :EnemyEntity
   var dogEnemyEntity :DogEnemyEntity
@@ -62,6 +63,7 @@ class GameScene: SKScene {
   var lastTouchLocation: CGPoint?
   let zombieRotateRadiansPerSec:CGFloat = 4.0 * π
   let zombieAnimation: SKAction
+  let dogEnemyAnimation: SKAction
   let catCollisionSound: SKAction = SKAction.playSoundFileNamed(
     "hitCat.wav", waitForCompletion: false)
   let enemyCollisionSound: SKAction = SKAction.playSoundFileNamed(
@@ -89,6 +91,7 @@ class GameScene: SKScene {
     enemyEntity = EnemyEntity(initTarget : zombieEntity.component(ofType: TargetComponent.self)!)
     dogEnemyEntity = DogEnemyEntity(initTarget : zombieEntity.component(ofType: TargetComponent.self)!)
     zombie = zombieEntity.component(ofType: SpriteComponent.self)!.node
+    dog = dogEnemyEntity.component(ofType: SpriteComponent.self)!.node
     //HeartDropEntity = HeartDropEntity()
     
     /////
@@ -106,6 +109,21 @@ class GameScene: SKScene {
     zombieAnimation = SKAction.animate(with: textures, 
       timePerFrame: 0.1)
   
+    /////
+    // 1
+    var textures2:[SKTexture] = []
+    // 2
+    for i in 1...3 {
+        textures2.append(SKTexture(imageNamed: "dog\(i)"))
+    }
+    // 3
+    textures2.append(textures2[2])
+    textures2.append(textures2[1])
+    
+    // 4
+    dogEnemyAnimation = SKAction.animate(with: textures2,
+                                       timePerFrame: 0.1)
+    
     super.init(size: size)
   }
 
@@ -154,7 +172,7 @@ class GameScene: SKScene {
         SKAction.sequence([SKAction.run() { [weak self] in
             self?.spawnDogEnemy()
             },
-                           SKAction.wait(forDuration: 5.0),
+                           SKAction.wait(forDuration: 17.0),
                            
                            ////////
             SKAction.run() {self.dogEnemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
@@ -311,7 +329,6 @@ class GameScene: SKScene {
   }
   
   func spawnEnemy() {
-    
     ///////
     let targetComponent = zombieEntity.component(ofType: TargetComponent.self)!
     enemyEntity  = EnemyEntity(initTarget : targetComponent)
@@ -345,6 +362,7 @@ class GameScene: SKScene {
         dogEnemy.zPosition = 50
         dogEnemy.name = "dogEnemy"
         addChild(dogEnemy)
+        startDogAnimation()
     /*
     let actionMove =
       SKAction.moveBy(x: -(size.width + enemy.size.width), y: 0, duration: 2.0)
@@ -361,7 +379,14 @@ class GameScene: SKScene {
         withKey: "animation")
     }
   }
-
+    
+    func startDogAnimation(){
+        if dog.action(forKey: "animation") == nil {
+            dog.run(
+                SKAction.repeatForever(dogEnemyAnimation),
+                withKey: "animation")
+        }
+    }
   func stopZombieAnimation() {
     zombie.removeAction(forKey: "animation")
   }
@@ -433,6 +458,28 @@ class GameScene: SKScene {
     loseCats()
     lives -= 1
   }
+    
+    func zombieHit(dog: SKSpriteNode) {
+        invincible = true
+        let blinkTimes = 10.0
+        let duration = 3.0
+        let blinkAction = SKAction.customAction(withDuration: duration) { node, elapsedTime in
+            let slice = duration / blinkTimes
+            let remainder = Double(elapsedTime).truncatingRemainder(
+                dividingBy: slice)
+            node.isHidden = remainder > slice / 2
+        }
+        let setHidden = SKAction.run() { [weak self] in
+            self?.zombie.isHidden = false
+            self?.invincible = false
+        }
+        zombie.run(SKAction.sequence([blinkAction, setHidden]))
+        
+        run(enemyCollisionSound)
+        
+        loseCats()
+        lives -= 1
+    }
 
   func checkCollisions() {
     var hitCats: [SKSpriteNode] = []
@@ -462,7 +509,21 @@ class GameScene: SKScene {
     for enemy in hitEnemies {
       zombieHit(enemy: enemy)
     }
-  }
+  
+    var hitDog: [SKSpriteNode] = []
+    enumerateChildNodes(withName: "dogEnemy") { node, _ in
+        let dog = node as! SKSpriteNode
+        if node.frame.insetBy(dx: 20, dy: 20).intersects(
+            self.zombie.frame) {
+            hitEnemies.append(dog)
+        }
+    }
+    for dog in hitEnemies {
+        zombieHit(dog: dog)
+    }
+    
+    
+    }
   
   override func didEvaluateActions() {
     checkCollisions()
