@@ -167,16 +167,16 @@ class GameScene: SKScene {
                     },
                          SKAction.wait(forDuration: 5.0),
                          
-                         ////////
+                         
                          SKAction.run() {self.enemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
-////////
+
     run(SKAction.repeatForever(
         SKAction.sequence([SKAction.run() { [weak self] in
             self?.spawnDogEnemy()
             },
-                           SKAction.wait(forDuration: 17.0),
+                           SKAction.wait(forDuration: 15.0),
                            
-                           ////////
+                          
             SKAction.run() {self.dogEnemyEntity.component(ofType: SpriteComponent.self)!.node.removeFromParent()}])))
     
     run(SKAction.repeatForever(
@@ -185,6 +185,10 @@ class GameScene: SKScene {
                         },
                         SKAction.wait(forDuration: 1.0)])))
     
+    run(SKAction.repeatForever(
+        SKAction.sequence([SKAction.run() { [weak self] in
+            self?.spawnHeart()            },
+                           SKAction.wait(forDuration: 10.0)])))
     
     // debugDrawPlayableArea()
     
